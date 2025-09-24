@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import static org.example.database.Pamydex.*;
 import org.example.function.Function;
 import org.example.model.PamGym;
 import org.example.model.PamMaster;
@@ -9,13 +10,14 @@ import java.util.UUID;
 
 public class PamNimalController {
     private PamNimal pamNimal;
-    private Function functionController = new Function();
+    private final Function functionController = new Function();
 
     public void registerPamNimal(String name, String specie,String breed, int age,
                                  String sex, String currentStatus, PamGym pamGym, PamMaster pamMaster){
 
+        UUID id = functionController.uniqueId(PAMNIMALS);
+        pamNimal = new PamNimal(id, name, specie, breed, age, sex, currentStatus, pamGym, pamMaster);
 
-        UUID id  = functionController.uniqueId();
-        pamNimal = new PamNimal();
+        PAMNIMALS.add(pamNimal);
     }
 }

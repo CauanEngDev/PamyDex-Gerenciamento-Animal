@@ -2,6 +2,7 @@ package org.example.function;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
+import org.example.model.Identifiable;
 import org.example.database.Pamydex;
 import org.example.model.*;
 
@@ -14,11 +15,10 @@ import java.util.UUID;
 import java.util.stream.*;
 
 public class Function {
-    public UUID uniqueId(List<Register> list){
+    public <T extends Identifiable> UUID uniqueId(List<T> list){
         UUID uuid;
-
         List<UUID> listId = list.stream()
-                .map(Register::getId)
+                .map(item -> item.getId())
                 .collect(Collectors.toList());
 
         do {

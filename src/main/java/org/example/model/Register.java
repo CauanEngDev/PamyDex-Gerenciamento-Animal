@@ -2,7 +2,7 @@ package org.example.model;
 
 import java.util.UUID;
 
-public abstract class Register {
+public abstract class Register implements Identifiable {
     protected UUID id;
     protected String name;
     protected Address address;

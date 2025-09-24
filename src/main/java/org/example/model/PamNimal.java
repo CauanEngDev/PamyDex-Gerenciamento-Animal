@@ -1,7 +1,9 @@
 package org.example.model;
 
-public class PamNimal {
-    private int id;
+import java.util.UUID;
+
+public class PamNimal implements Identifiable {
+    private UUID id;
     private String name;
     private String specie;
     private String breed;
@@ -13,7 +15,7 @@ public class PamNimal {
 
     public PamNimal() {}
 
-    public PamNimal(int id, String name, String specie, String breed, int age,
+    public PamNimal(UUID id, String name, String specie, String breed, int age,
                     String sex, String currentStatus, PamGym pamGym, PamMaster pamMaster) {
         this.id = id;
         this.name = name;
@@ -26,7 +28,7 @@ public class PamNimal {
         this.pamMaster = pamMaster;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 

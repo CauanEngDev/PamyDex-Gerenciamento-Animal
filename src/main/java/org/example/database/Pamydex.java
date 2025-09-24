@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pamydex {
-    public static List<PamNimal> pamNimals = new ArrayList<>();
-    public static List<PamGym> pamGyms = new ArrayList<>();
-    public static List<PamMaster> pamMasters = new ArrayList<>();
+    public static List<PamNimal> PAMNIMALS = new ArrayList<>();
+    public static List<PamGym> PAMGYMS = new ArrayList<>();
+    public static List<PamMaster> PAMMASTERS = new ArrayList<>();
 }

@@ -2,6 +2,7 @@ package org.example.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class PamMaster extends Register{
     private String phone;
@@ -10,8 +11,8 @@ public class PamMaster extends Register{
 
     public PamMaster(){}
 
-    public PamMaster(String phone, String email, List<PamNimal> pamNimals) {
-        super();
+    public PamMaster(UUID id, String name, Address address, String phone, String email, List<PamNimal> pamNimals) {
+        super(id, name, address);
 
         this.phone = phone;
         this.email = email;
