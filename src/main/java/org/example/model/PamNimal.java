@@ -10,13 +10,13 @@ public class PamNimal implements Identifiable {
     private int age;
     private String sex;
     private String currentStatus;
-    private PamGym pamGym;
-    private PamMaster pamMaster;
+    private UUID pamGymId;
+    private UUID pamMasterId;
 
     public PamNimal() {}
 
     public PamNimal(UUID id, String name, String specie, String breed, int age,
-                    String sex, String currentStatus, PamGym pamGym, PamMaster pamMaster) {
+                    String sex, String currentStatus, UUID pamGymId, UUID pamMasterId) {
         this.id = id;
         this.name = name;
         this.specie = specie;
@@ -24,8 +24,8 @@ public class PamNimal implements Identifiable {
         this.age = age;
         this.sex = sex;
         this.currentStatus = currentStatus;
-        this.pamGym = pamGym;
-        this.pamMaster = pamMaster;
+        this.pamGymId = pamGymId;
+        this.pamMasterId = pamMasterId;
     }
 
     public UUID getId() {
@@ -56,12 +56,12 @@ public class PamNimal implements Identifiable {
         return currentStatus;
     }
 
-    public PamGym getPamGym(){
-        return pamGym;
+    public UUID getPamGym(){
+        return pamGymId;
     }
 
-    public PamMaster getPamMaster(){
-        return pamMaster;
+    public UUID getPamMaster(){
+        return pamMasterId;
     }
 
     public void setName(String name) {
@@ -85,12 +85,10 @@ public class PamNimal implements Identifiable {
     }
 
     public void setPamGym(PamGym pamGym) {
-        if (this.pamGym == null) {
-            this.pamGym = pamGym;
-        }
+            this.pamGymId = pamGym.getId();
     }
 
     public void setPamMaster(PamMaster pamMaster) {
-        this.pamMaster = pamMaster;
+        this.pamMasterId = pamMaster.getId();
     }
 }

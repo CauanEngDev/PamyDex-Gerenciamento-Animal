@@ -1,7 +1,6 @@
 package org.example.view;
 
-import java.util.Scanner;
-import static org.example.function.IOFunctions.*;
+import static org.example.commons.IOFunctions.*;
 
 public class PrincipalMenu {
     public static void principalMenu(){

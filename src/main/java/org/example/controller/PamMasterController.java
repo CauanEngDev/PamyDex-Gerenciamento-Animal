@@ -1,6 +1,6 @@
 package org.example.controller;
 
-import org.example.function.Function;
+import org.example.commons.Function;
 import org.example.model.Address;
 import org.example.model.PamMaster;
 import org.example.model.PamNimal;

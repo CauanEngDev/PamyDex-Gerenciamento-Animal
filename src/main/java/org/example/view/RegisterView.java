@@ -1,6 +1,9 @@
 package org.example.view;
 
-import static org.example.function.IOFunctions.*;
+import org.example.database.Pamydex;
+
+import static org.example.commons.IOFunctions.*;
+import static org.example.commons.Function.*;
 
 public class RegisterView {
     public static void registerMenu(){
@@ -22,14 +25,40 @@ public class RegisterView {
         }
     }
 
+    /**
+     * asasasasas
+     */
     public static void pamNimalCreate(){
+        if (Pamydex.PAMGYMS.isEmpty()) {
+            print("Cadastre um PamGym primeiro!!!");
+            return;
+        }
+
         printl("=> Cadastrando PamNimal...");
 
-        String name = inputUser("Nome do PamNimal: ");
+        String name = inputUser("Nome do PamNimal");
         if (name == null) return;
 
-        String specie = inputUser("Specie do PamNimal: ");
+        String specie = inputUser("Espécie do PamNimal");
         if (specie == null) return;
+
+        String breed = inputUser("Raça do PamNimal");
+        if (breed == null) return;
+
+        Integer age = inputUserInt("Idade do PamNimal");
+        if (age == null) return;
+
+        String sex = inputUser("Sexo do PamNimal");
+        if (sex == null) return;
+
+        printl("""
+                [1] Em Observação
+                [2] Disponível para Adoção
+                [3] Em Tratamento
+                [0] Voltar
+                """);
+        String currentStatus = chooseCurrentStatus();
+        if (currentStatus == null) return;
 
 
     }

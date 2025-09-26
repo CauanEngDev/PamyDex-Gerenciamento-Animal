@@ -1,4 +1,4 @@
-package org.example.function;
+package org.example.commons;
 
 import java.util.Scanner;
 
@@ -7,7 +7,7 @@ public class IOFunctions {
 
     public static String inputUser(String prompt) {
         while (true) {
-            print(prompt + "(Digite 'p' para pular");
+            print(prompt + " (Digite 'p' para voltar) -> ");
             String input =  scanner.nextLine().trim();
 
             if (input.equals("p")) {
@@ -18,6 +18,26 @@ public class IOFunctions {
                 print("Erro: Digite algo  na entrada!");
             } else {
                 return input;
+            }
+        }
+    }
+
+    public static Integer inputUserInt(String prompt) {
+        while (true) {
+            String input;
+            do {
+                print(prompt + " (Digite '0' para voltar) -> ");
+                input = scanner.nextLine().trim();
+            } while (Integer.parseInt(input) < 0);
+
+            if (input.equals("0")) {
+                return null;
+            }
+
+            if (input.isEmpty()) {
+                print("Erro: Digite algo  na entrada!");
+            } else {
+                return Integer.parseInt(input);
             }
         }
     }
