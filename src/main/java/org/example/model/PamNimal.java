@@ -1,5 +1,7 @@
 package org.example.model;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.UUID;
 
 public class PamNimal implements Identifiable {
@@ -84,11 +86,11 @@ public class PamNimal implements Identifiable {
         this.currentStatus = currentStatus;
     }
 
-    public void setPamGym(PamGym pamGym) {
+    public void setPamGym(@NotNull PamGym pamGym) {
             this.pamGymId = pamGym.getId();
     }
 
-    public void setPamMaster(PamMaster pamMaster) {
+    public void setPamMaster(@NotNull PamMaster pamMaster) {
         this.pamMasterId = pamMaster.getId();
     }
 }

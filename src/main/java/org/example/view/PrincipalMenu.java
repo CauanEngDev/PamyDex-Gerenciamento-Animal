@@ -21,7 +21,7 @@ public class PrincipalMenu {
             switch (choose){
                 case "1" -> RegisterView.registerMenu();
                 case "2";
-                case "3";
+                case "3" -> RemoveView.removeMenu();
                 case "4";
                 case "5";
                 case "0" -> { return; }

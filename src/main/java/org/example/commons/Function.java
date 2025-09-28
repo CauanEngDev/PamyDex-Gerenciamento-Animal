@@ -4,6 +4,8 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
 import org.example.database.Pamydex;
 import org.example.model.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileReader;
@@ -24,7 +26,7 @@ public class Function {
             uuid = UUID.randomUUID();
         } while (listId.contains(uuid));
 
-        return uuid;
+        return uuid;/;
     }
 
     public static void saveInfo() {
@@ -63,8 +65,8 @@ public class Function {
         }
     }
 
-    public static String chooseCurrentStatus(){
-        Set<String> options = new HashSet<String>();
+    public static @Nullable String chooseCurrentStatus(){
+        Set<String> options = new HashSet<>();
         options.add("1");
         options.add("2");
         options.add("3");
@@ -94,12 +96,18 @@ public class Function {
         return null;
     }
 
-    public UUID listPamMaster(){
-        for (int i = 0; i < Pamydex.PAMMASTERS.size(); i++) {
-            System.out.printf("[%d] %s",  i, Pamydex.PAMMASTERS.get(i).getName());
-        }
+    public static @Nullable String createPhone(){
+        String phone;
 
-        String choose = IOFunctions.ask("Qual PamMaster deseja ligar ao PamNimal? ");
+        do{
+            phone = IOFunctions.ask("Digite o telefone do PamMaster: ");
 
+            if (phone.isEmpty()) return null;
+
+            if (!(phone.matches("[0-9]+")) || phone.length() != 11) IOFunctions.printl("Digite apenas números no formato xxxxxxxxxxx");
+
+        } while (!(phone.matches("[0-9]+")) || phone.length() != 11);
+
+        return phone;
     }
 }

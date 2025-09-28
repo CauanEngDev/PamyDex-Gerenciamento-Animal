@@ -1,11 +1,14 @@
 package org.example.commons;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Scanner;
 
 public class IOFunctions {
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static String inputUser(String prompt) {
+    public static @Nullable String inputUser(String prompt) {
         while (true) {
             print(prompt + " (Digite 'p' para voltar) -> ");
             String input =  scanner.nextLine().trim();
@@ -22,27 +25,32 @@ public class IOFunctions {
         }
     }
 
-    public static Integer inputUserInt(String prompt) {
+    public static @Nullable Integer inputUserInt(String prompt) {
         while (true) {
             String input;
-            do {
-                print(prompt + " (Digite '0' para voltar) -> ");
-                input = scanner.nextLine().trim();
-            } while (Integer.parseInt(input) < 0);
+            try {
+                do {
+                    print(prompt + " (Digite '0' para voltar) -> ");
+                    input = scanner.nextLine().trim();
+                } while (Integer.parseInt(input) < 0);
 
-            if (input.equals("0")) {
-                return null;
-            }
+                if (input.equals("0")) {
+                    return null;
+                }
 
-            if (input.isEmpty()) {
-                print("Erro: Digite algo  na entrada!");
-            } else {
-                return Integer.parseInt(input);
+                if (input.isEmpty()) {
+                    print("Erro: Digite algo  na entrada!");
+                } else {
+                    return Integer.parseInt(input);
+                }
+            } catch (NumberFormatException ex) {
+                printl("Digite apenas números!");
             }
         }
     }
 
-    public static String ask(String prompt) {
+
+    public static @NotNull String ask(String prompt) {
         try {
             print(prompt);
             return scanner.nextLine().trim();

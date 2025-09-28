@@ -1,3 +1,3 @@
 package org.example.model;
 
-public record Address(String street, String neighborhood, String city, String state){}
+public record Address(String neighborhood, String city, String state){}

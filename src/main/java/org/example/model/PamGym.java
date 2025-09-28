@@ -2,20 +2,17 @@ package org.example.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class PamGym extends Register{
     private List<PamNimal> pamNimalList;
 
     public PamGym() {}
 
-    public PamGym(List<PamNimal> pamNimalList) {
-        super();
+    public PamGym(UUID id, String name, Address address) {
+        super(id, name, address);
 
-        if (pamNimalList != null) {
-            this.pamNimalList = pamNimalList;
-        } else {
-            this.pamNimalList = new ArrayList<>();
-        }
+        this.pamNimalList = new ArrayList<>();
     }
 
     public List<PamNimal> getPamNimalList() {

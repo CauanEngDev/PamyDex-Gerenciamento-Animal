@@ -11,17 +11,16 @@ public class PamMaster extends Register{
 
     public PamMaster(){}
 
-    public PamMaster(UUID id, String name, Address address, String phone, String email, List<PamNimal> pamNimals) {
+    public PamMaster(UUID id){
+        this.id = id;
+    }
+
+    public PamMaster(UUID id, String name, Address address, String phone, String email) {
         super(id, name, address);
 
         this.phone = phone;
         this.email = email;
-
-        if (pamNimals != null){
-            this.pamNimals = pamNimals;
-        } else {
-            this.pamNimals = new ArrayList<>();
-        }
+        this.pamNimals = new ArrayList<>();
     }
 
     public String getPhone() {
