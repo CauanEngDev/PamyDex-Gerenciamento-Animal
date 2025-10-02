@@ -9,6 +9,8 @@ import static org.example.database.Pamydex.*;
 import static org.example.commons.Function.*;
 import static org.example.commons.IOFunctions.*;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
 import java.util.UUID;
 
 public class PamGymController {
@@ -32,19 +34,47 @@ public class PamGymController {
 
     public void showPamGyms() {
         for (int i = 0; i < PAMGYMS.size(); i++)
-            System.out.printf("[%d] %s",  i, PAMGYMS.get(i).getName());
+            System.out.printf("[%d] %s",  i + 1, PAMGYMS.get(i).getName());
     }
 
-    public void removePamGym(int choosePamGym) {
+    public UUID showPamGyms(int pg) {
+        int i = 1;
+        String choose;
+
+        for (PamGym pamGym : PAMGYMS) {
+            if (!(pamGym.getId().equals(PAMGYMS.get(pg).getId())))
+                System.out.printf("[%d] %s", i++, pamGym.getName());
+            else {
+                System.out.printf("[NÃO ESCOLHÍVEL] %s", pamGym.getName());
+                i++;
+            }
+        }
+        while (true) {
+            try {
+                choose = ask("Escolha uma opção: ");
+                if (Integer.parseInt(choose) != pg) return PAMGYMS.get(Integer.parseInt(choose) - 1).getId();
+                else printl("Não pode escolher a mesma PamGym");
+            } catch (InputMismatchException ex) {
+                printl("Digite uma opção válida!");
+            } catch (IndexOutOfBoundsException ex) {
+                printl("Digite uma opção válida!");
+            } catch (NumberFormatException ex) {
+                printl("Digite um numero!");
+            }
+        }
+    }
+
+    public boolean removePamGym(int choosePamGym, UUID newPamGym) {
         try {
             PamGym pamGym = PAMGYMS.get(choosePamGym);
+            for (PamNimal p : pamGym.getPamNimalList())
+                p.setPamGym(newPamGym);
             PAMGYMS.remove(pamGym);
             saveInfo();
-            return;
+            return false;
         } catch (IndexOutOfBoundsException ex) {
             printl("Digite uma opção válida!");
         }
-
-        saveInfo();
+        return true;
     }
 }

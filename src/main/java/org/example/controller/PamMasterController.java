@@ -28,4 +28,11 @@ public class PamMasterController {
             }
         saveInfo();
     }
+
+    public void showPamMasters() {
+        for (int i = 0; i < PAMMASTERS.size(); i++)
+            System.out.printf("[%d] %s",  i + 1, PAMMASTERS.get(i).getName());
+    }
+
+    public void removePamMaster
 }

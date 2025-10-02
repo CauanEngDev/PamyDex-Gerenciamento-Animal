@@ -86,8 +86,8 @@ public class PamNimal implements Identifiable {
         this.currentStatus = currentStatus;
     }
 
-    public void setPamGym(@NotNull PamGym pamGym) {
-            this.pamGymId = pamGym.getId();
+    public void setPamGym(@NotNull UUID newPamGym) {
+            this.pamGymId = newPamGym;
     }
 
     public void setPamMaster(@NotNull PamMaster pamMaster) {

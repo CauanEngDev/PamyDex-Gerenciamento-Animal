@@ -1,5 +1,7 @@
 package org.example.view;
 
+import java.util.UUID;
+
 import static org.example.controller.GeneralController.*;
 
 import static org.example.commons.IOFunctions.*;
@@ -28,11 +30,17 @@ public class RemoveView {
     public static void pamGymRemove() {
         gymController.showPamGyms();
         Integer choose;
+        UUID choose2;
+        boolean fazalgo = true;
 
-        while (true) {
+        while (fazalgo) {
             choose = inputUserInt("Escolha a PamGym para ser excluída: ");
             if (choose == null) return;
-            else gymController.removePamGym(choose-1);
+            else {
+                choose2 = gymController.showPamGyms(choose);
+                if (choose2 == null) return;
+                else fazalgo = gymController.removePamGym(choose-1, choose2);
+            }
         }
     }
 
@@ -40,10 +48,22 @@ public class RemoveView {
         animalController.showPamNimals();
         Integer choose;
         boolean fazalgo = true;
+
         while (fazalgo) {
-            choose = inputUserInt("Escolha a PamGym para ser excluída: ");
+            choose = inputUserInt("Escolha o PamNimal para ser excluído: ");
             if (choose == null) return;
             else  fazalgo = animalController.removePamNimal(choose-1);
+        }
+    }
+
+    public static void pamMasterRemove() {
+        masterController.showPamMasters();
+        Integer choose;
+        boolean fazalgo = true;
+        while (fazalgo) {
+            choose = inputUserInt("Escolha o PamMaster para ser excluído: ");
+            if (choose == null) return;
+            else  fazalgo = masterController.removePamMaster(choose-1);
         }
     }
 }

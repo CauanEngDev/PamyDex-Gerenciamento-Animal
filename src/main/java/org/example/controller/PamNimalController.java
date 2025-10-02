@@ -94,6 +94,6 @@ public class PamNimalController {
 
     public void showPamNimals() {
         for (int i = 0; i < PAMNIMALS.size(); i++)
-            System.out.printf("[%d] %s",  i, PAMNIMALS.get(i).getName());
+            System.out.printf("[%d] %s",  i + 1, PAMNIMALS.get(i).getName());
     }
 }

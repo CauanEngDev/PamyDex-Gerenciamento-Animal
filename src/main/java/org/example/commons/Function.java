@@ -26,7 +26,7 @@ public class Function {
             uuid = UUID.randomUUID();
         } while (listId.contains(uuid));
 
-        return uuid;/;
+        return uuid;
     }
 
     public static void saveInfo() {
