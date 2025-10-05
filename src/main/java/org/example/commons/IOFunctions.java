@@ -66,4 +66,8 @@ public class IOFunctions {
     public static void printl(String prompt) {
         System.out.println(prompt);
     }
+
+    public static void printf(String formato, Object... args) {
+        System.out.printf(formato, args);
+    }
 }

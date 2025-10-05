@@ -77,4 +77,31 @@ public class PamGymController {
         }
         return true;
     }
+
+    public void listPamGyms() {
+        if (PAMGYMS.isEmpty()) {
+            printl("Não há PamGyms cadastrados!");
+        } else {
+            for (PamGym pamGym : PAMGYMS) {
+                printf("""
+                        Id -> %s
+                        "Nome -> %s
+                        """, pamGym.getId(), pamGym.getName());
+                printl("Endereço:");
+                Address address = pamGym.getAddress();
+                printf("""
+                Bairro -> %s
+                Cidade -> %s
+                Estado -> %s
+                """, address.neighborhood(), address.city(), address.state());
+                printl("Nomes dos PamNimals:");
+                for (PamNimal p : pamGym.getPamNimalList())
+                    printl(p.getName());
+
+                printl(" ");
+                printl("-".repeat(20));
+                printl(" ");
+            }
+        }
+    }
 }

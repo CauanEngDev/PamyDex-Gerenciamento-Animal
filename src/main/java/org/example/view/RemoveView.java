@@ -21,7 +21,7 @@ public class RemoveView {
         switch (choose) {
             case "1" -> pamGymRemove();
             case "2" -> pamNimalRemove();
-//            case "3" -> pamMasterRemove();
+            case "3" -> pamMasterRemove();
             case "4" -> {}
             default -> printl("Erro: escolha uma opção válida!");
         }
@@ -34,7 +34,7 @@ public class RemoveView {
         boolean fazalgo = true;
 
         while (fazalgo) {
-            choose = inputUserInt("Escolha a PamGym para ser excluída: ");
+            choose = inputUserInt("Escolha a PamGym para ser excluída");
             if (choose == null) return;
             else {
                 choose2 = gymController.showPamGyms(choose);
@@ -50,7 +50,7 @@ public class RemoveView {
         boolean fazalgo = true;
 
         while (fazalgo) {
-            choose = inputUserInt("Escolha o PamNimal para ser excluído: ");
+            choose = inputUserInt("Escolha o PamNimal para ser excluído");
             if (choose == null) return;
             else  fazalgo = animalController.removePamNimal(choose-1);
         }
@@ -59,11 +59,27 @@ public class RemoveView {
     public static void pamMasterRemove() {
         masterController.showPamMasters();
         Integer choose;
+        UUID choose2;
+        String question;
         boolean fazalgo = true;
+
         while (fazalgo) {
-            choose = inputUserInt("Escolha o PamMaster para ser excluído: ");
+            choose = inputUserInt("Escolha o PamMaster para ser excluído");
             if (choose == null) return;
-            else  fazalgo = masterController.removePamMaster(choose-1);
+            else {
+                do {
+                    question = ask("Deseja escolher outro PamMaster para os PamNimals deste que será excluído? [y/n]");
+                    if (question.equals("s")) {
+                        choose2 = masterController.showPamMasters(choose);
+                        if (choose2 == null) return;
+                        else fazalgo = masterController.removePamMaster(choose-1, choose2);
+                    } else if (question.equals("n")) {
+                        fazalgo = masterController.removePamMaster(choose-1, null);
+                    } else {
+                        printl("Digite 's' ou 'n'");
+                    }
+                } while (!(question.equalsIgnoreCase("s")) || !(question.equalsIgnoreCase("n")));
+            }
         }
     }
 }

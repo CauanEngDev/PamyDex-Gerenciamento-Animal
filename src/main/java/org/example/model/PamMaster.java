@@ -23,8 +23,10 @@ public class PamMaster extends Register{
         this.pamNimals = new ArrayList<>();
     }
 
-    public String getPhone() {
-        return phone;
+    public String getFormatedPhone() {
+        StringBuilder sb = new StringBuilder(phone);
+        sb.insert(0, "(").insert(3, ") ").insert(10, "-");
+        return sb.toString();
     }
 
     public void setPhone(String phone) {

@@ -44,7 +44,7 @@ public class Function {
         xstream.alias("PamNimal", PamNimal.class);
         xstream.alias("Address", Address.class);
 
-        File arqXml = new File("PamyDex.xml");
+        File arqXml = new File("data/PamyDex.xml");
         try (FileWriter writer = new FileWriter(arqXml)) {
             xstream.toXML(data, writer);
         } catch (IOException e) {
@@ -57,11 +57,11 @@ public class Function {
         xstream.addPermission(AnyTypePermission.ANY);
 
         Pamydex pamyDex;
-        File arqXml = new File("PamyDex.xml");
+        File arqXml = new File("data/PamyDex.xml");
         try (FileReader reader = new FileReader(arqXml)){
             pamyDex =  (Pamydex) xstream.fromXML(reader);
         } catch (IOException e) {
-            System.out.println("Erro ao puxar arquivo");
+            saveInfo();
         }
     }
 

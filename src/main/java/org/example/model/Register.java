@@ -26,4 +26,8 @@ public abstract class Register implements Identifiable {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Address getAddress() {
+        return address;
+    }
 }

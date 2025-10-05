@@ -90,7 +90,7 @@ public class PamNimal implements Identifiable {
             this.pamGymId = newPamGym;
     }
 
-    public void setPamMaster(@NotNull PamMaster pamMaster) {
-        this.pamMasterId = pamMaster.getId();
+    public void setPamMaster(@NotNull UUID newPamMaster) {
+        this.pamMasterId = newPamMaster;
     }
 }
