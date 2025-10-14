@@ -17,6 +17,18 @@ public class PamNimal implements Identifiable {
 
     public PamNimal() {}
 
+    /**
+     * Construtor da classe
+     * @param id id único imutável
+     * @param name Nome do PamNimal
+     * @param specie Espécie do PamNimal
+     * @param breed Raça do PamNimal
+     * @param age Idade do PamNimal
+     * @param sex Sexo do PamNimal
+     * @param currentStatus Status atual do PamNimal
+     * @param pamGymId Id da PamGym pra saber ao qual ele está atrelado
+     * @param pamMasterId Id do(a) PamMaster pra saber qual ele está atrelado
+     */
     public PamNimal(UUID id, String name, String specie, String breed, int age,
                     String sex, String currentStatus, UUID pamGymId, UUID pamMasterId) {
         this.id = id;
@@ -70,6 +82,10 @@ public class PamNimal implements Identifiable {
         this.name = name;
     }
 
+    public void setSpecie(String specie) {
+        this.specie = specie;
+    }
+
     public void setBreed(String breed) {
         this.breed = breed;
     }
@@ -86,11 +102,11 @@ public class PamNimal implements Identifiable {
         this.currentStatus = currentStatus;
     }
 
-    public void setPamGym(@NotNull UUID newPamGym) {
+    public void setPamGym(UUID newPamGym) {
             this.pamGymId = newPamGym;
     }
 
-    public void setPamMaster(@NotNull UUID newPamMaster) {
+    public void setPamMaster(UUID newPamMaster) {
         this.pamMasterId = newPamMaster;
     }
 }

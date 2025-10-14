@@ -9,15 +9,13 @@ import static org.example.database.Pamydex.*;
 import static org.example.commons.Function.*;
 import static org.example.commons.IOFunctions.*;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
 import java.util.UUID;
 
 public class PamGymController {
 
     public void registerPamGym(String name, String neighborhood, String city, String state) {
         UUID pamGymId = uniqueId(PAMGYMS);
-        Address address = new Address(city, state, neighborhood);
+        Address address = new Address(neighborhood, city, state);
         PamGym pamGym = new PamGym(pamGymId, name, address);
 
         PAMGYMS.add(pamGym);
@@ -34,7 +32,7 @@ public class PamGymController {
 
     public void showPamGyms() {
         for (int i = 0; i < PAMGYMS.size(); i++)
-            System.out.printf("[%d] %s",  i + 1, PAMGYMS.get(i).getName());
+            printf("[%d] %s\n",  i + 1, PAMGYMS.get(i).getName());
     }
 
     public UUID showPamGyms(int pg) {
@@ -43,9 +41,9 @@ public class PamGymController {
 
         for (PamGym pamGym : PAMGYMS) {
             if (!(pamGym.getId().equals(PAMGYMS.get(pg).getId())))
-                System.out.printf("[%d] %s", i++, pamGym.getName());
+                printf("[%d] %s\n", i++, pamGym.getName());
             else {
-                System.out.printf("[NÃO ESCOLHÍVEL] %s", pamGym.getName());
+                printf("[NÃO ESCOLHÍVEL] %s\n", pamGym.getName());
                 i++;
             }
         }
@@ -54,8 +52,6 @@ public class PamGymController {
                 choose = ask("Escolha uma opção: ");
                 if (Integer.parseInt(choose) != pg) return PAMGYMS.get(Integer.parseInt(choose) - 1).getId();
                 else printl("Não pode escolher a mesma PamGym");
-            } catch (InputMismatchException ex) {
-                printl("Digite uma opção válida!");
             } catch (IndexOutOfBoundsException ex) {
                 printl("Digite uma opção válida!");
             } catch (NumberFormatException ex) {
@@ -67,7 +63,7 @@ public class PamGymController {
     public boolean removePamGym(int choosePamGym, UUID newPamGym) {
         try {
             PamGym pamGym = PAMGYMS.get(choosePamGym);
-            for (PamNimal p : pamGym.getPamNimalList())
+            for (PamNimal p : pamGym.getPamNimals())
                 p.setPamGym(newPamGym);
             PAMGYMS.remove(pamGym);
             saveInfo();
@@ -93,15 +89,105 @@ public class PamGymController {
                 Bairro -> %s
                 Cidade -> %s
                 Estado -> %s
-                """, address.neighborhood(), address.city(), address.state());
+                """, address.getNeighborhood(), address.getCity(), address.getState());
                 printl("Nomes dos PamNimals:");
-                for (PamNimal p : pamGym.getPamNimalList())
+                for (PamNimal p : pamGym.getPamNimals())
                     printl(p.getName());
 
                 printl(" ");
                 printl("-".repeat(20));
                 printl(" ");
             }
+        }
+    }
+
+    public boolean updatePamGyms(int editPamGym) {
+        try {
+            while (true) {
+                PamGym pamGym = PAMGYMS.get(editPamGym);
+                String choose;
+
+                printl("""
+                        [1] Nome
+                        [2] Bairro
+                        [3] Cidade
+                        [4] Estado
+                        [5] Sair
+                        """);
+
+                choose = ask("=> Qual atributo deseja editar? ");
+
+                switch (choose) {
+                    case "1" -> {
+                        printf("Nome atual da PamGym: %s\n", pamGym.getName());
+                        String newName = inputUser("Digite o novo nome");
+                        String option = ask("=> Deseja realmente fazer a troca? ");
+                        if (option.equalsIgnoreCase("s")) {
+                            if (newName != null) {
+                                pamGym.setName(newName);
+                                saveInfo();
+                                printl("Nome atualizado com sucesso!");
+                            }
+                        } else {
+                            printl("Troca não realizada! Retornando...");
+                        }
+                    }
+
+                    case "2" -> {
+                        printf("Bairro atual da PamGym: %s\n", pamGym.getAddress().getNeighborhood());
+                        String newNeighbourHood = inputUser("Digite o novo Bairro");
+                        String option = ask("=> Deseja realmente fazer a troca? ");
+                        if (option.equalsIgnoreCase("s")) {
+                            if (newNeighbourHood != null) {
+                                pamGym.getAddress().setNeighborhood(newNeighbourHood);
+                                saveInfo();
+                                printl("Bairro atualizado com sucesso!");
+                            }
+                        } else {
+                            printl("Troca não realizada! Retornando...");
+                        }
+                    }
+
+                    case "3" -> {
+                        printf("Cidade atual da PamGym: %s\n", pamGym.getAddress().getCity());
+                        String newCity = inputUser("Digite a nova cidade");
+                        String option = ask("=> Deseja realmente fazer a troca? ");
+                        if (option.equalsIgnoreCase("s")) {
+                            if (newCity != null) {
+                                pamGym.getAddress().setCity(newCity);
+                                saveInfo();
+                                printl("Cidade atualizada com sucesso!");
+                            }
+                        } else {
+                            printl("Troca não realizada! Retornando...");
+                        }
+                    }
+
+                    case "4" -> {
+                        printf("Estado atual da Pamgym: %s\n", pamGym.getAddress().getState());
+                        String newState = inputUser("Digite o novo Estado");
+                        String option = ask("=> Deseja realmente fazer a troca? ");
+                        if (option.equalsIgnoreCase("s")) {
+                            if (newState != null) {
+                                pamGym.getAddress().setState(newState);
+                                saveInfo();
+                                printl("Estado atualizado com sucesso!");
+                            }
+                        } else {
+                            printl("Troca não realizada! Retornando...");
+                        }
+                    }
+
+                    case "5" -> {
+                        return false;
+                    }
+
+                    default -> printl("Digite uma opção válida!");
+                }
+            }
+        } catch (IndexOutOfBoundsException e) {
+            printl("Digite um número dentro da opções!");
+            return true;
         }
     }
 }

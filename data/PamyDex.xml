@@ -1,0 +1,58 @@
+<PamyDex>
+  <PamNimals>
+    <PamNimal>
+      <id>cb4e4fc9-e822-4cc8-bc27-b3540551bb71</id>
+      <name>Cauan</name>
+      <specie>Zombie</specie>
+      <breed>noHeart</breed>
+      <age>2</age>
+      <sex>Macho</sex>
+      <currentStatus>Em Tratamento</currentStatus>
+      <pamGymId>6510b18f-5cf1-42d1-98c1-a473ceb7d153</pamGymId>
+      <pamMasterId>68d844fc-1a04-420f-8134-668f70245f16</pamMasterId>
+    </PamNimal>
+    <PamNimal>
+      <id>d99c0a37-c873-4791-b257-441092f34d84</id>
+      <name>Lara</name>
+      <specie>Piranha</specie>
+      <breed>das ruim</breed>
+      <age>4000</age>
+      <sex>acho que é fêmea</sex>
+      <currentStatus>Disponível para Adoção</currentStatus>
+      <pamGymId>6510b18f-5cf1-42d1-98c1-a473ceb7d153</pamGymId>
+      <pamMasterId>68d844fc-1a04-420f-8134-668f70245f16</pamMasterId>
+    </PamNimal>
+  </PamNimals>
+  <PamGyms>
+    <PamGym>
+      <id>6510b18f-5cf1-42d1-98c1-a473ceb7d153</id>
+      <name>Igreja Paroquial São João Batista</name>
+      <address>
+        <neighborhood>Centro</neighborhood>
+        <city>Água Fria</city>
+        <state>Bahia</state>
+      </address>
+      <pamNimalList>
+        <PamNimal reference="../../../../PamNimals/PamNimal"/>
+        <PamNimal reference="../../../../PamNimals/PamNimal[2]"/>
+      </pamNimalList>
+    </PamGym>
+  </PamGyms>
+  <PamMasters>
+    <PamMaster>
+      <id>68d844fc-1a04-420f-8134-668f70245f16</id>
+      <name>Laura Yasmin</name>
+      <address>
+        <neighborhood>Centro</neighborhood>
+        <city>Água Fria</city>
+        <state>Bahia</state>
+      </address>
+      <phone>75981081527</phone>
+      <email>lhYasmin2008@gmail.com</email>
+      <pamNimals>
+        <PamNimal reference="../../../../PamNimals/PamNimal"/>
+        <PamNimal reference="../../../../PamNimals/PamNimal[2]"/>
+      </pamNimals>
+    </PamMaster>
+  </PamMasters>
+</PamyDex>

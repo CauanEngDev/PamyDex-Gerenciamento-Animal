@@ -11,10 +11,14 @@ public class PamMaster extends Register{
 
     public PamMaster(){}
 
-    public PamMaster(UUID id){
-        this.id = id;
-    }
-
+    /**
+     * Construtor da classe
+     * @param id id unico imutável
+     * @param name nome do(a) PamMaster
+     * @param address Endereço
+     * @param phone Telefone
+     * @param email Email
+     */
     public PamMaster(UUID id, String name, Address address, String phone, String email) {
         super(id, name, address);
 

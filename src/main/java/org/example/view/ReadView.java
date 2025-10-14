@@ -6,6 +6,9 @@ import static org.example.commons.IOFunctions.*;
 
 public class ReadView {
 
+    /**
+     * Função de menu de busca
+     */
     public static void readMenu() {
         while (true) {
             printl("""
@@ -30,18 +33,27 @@ public class ReadView {
         }
     }
 
+    /**
+     * Função de busca de PamGyms
+     */
     public static void readPamGyms() {
         printl("Informações das PamGyms:");
         printl(" ");
         gymController.listPamGyms();
     }
 
+    /**
+     * Função de busca de PamMasters
+     */
     public static void readPamMaster() {
         printl("Informações do(a)s PamMasters:");
         printl(" ");
         masterController.listPamMaster();
     }
 
+    /**
+     * Função de busca de PamNimals
+     */
     public static void readPamNimals() {
         printl("Informações dos PamNimals:");
         printl(" ");

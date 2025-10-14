@@ -8,38 +8,49 @@ import static org.example.commons.Function.*;
 
 public class RegisterView {
 
+    /**
+     * Função de menu de registro
+     */
     public static void registerMenu() {
-        printl("""
-                => MENU DE CADASTRO <=
-                [1] PamGym
-                [2] PamNimal
-                [3] PamMaster
-                [4] Sair
-                """);
+        while (true) {
+            printl("""
+                    => MENU DE CADASTRO <=
+                    [1] PamGym
+                    [2] PamNimal
+                    [3] PamMaster
+                    [4] Sair
+                    """);
 
-        String choose = ask("Escolha um tipo de cadastro:");
-        switch (choose) {
-            case "1" -> pamGymCreate();
-            case "2" -> pamNimalCreate();
-            case "3" -> pamMasterCreate();
-            case "4" -> {}
-            default -> printl("Erro: escolha uma opção válida!");
+            String choose = ask("Escolha um tipo de cadastro:");
+            switch (choose) {
+                case "1" -> pamGymCreate();
+                case "2" -> pamNimalCreate();
+                case "3" -> pamMasterCreate();
+                case "4" -> {
+                    printl("Voltando...");
+                    return;
+                }
+                default -> printl("Erro: escolha uma opção válida!");
+            }
         }
     }
 
+    /**
+     * Função de criação de PamGyms. Pega as informações e manda pra função de registro dentro do controller.
+     */
     public static void pamGymCreate() {
-        printl("=> Cadastrando Pagym...");
+        printl("=> Cadastrando PamGym...");
 
-        String name = inputUser("Nome do Pagym");
+        String name = inputUser("Nome do PamGym");
         if (name == null) return;
 
-        String neighborhood = inputUser("Neighborhood do PamMaster");
+        String neighborhood = inputUser("Neighborhood do PamGym");
         if (neighborhood == null) return;
 
-        String city = inputUser("Cidade do PamMaster");
+        String city = inputUser("Cidade do PamGym");
         if (city == null) return;
 
-        String state = inputUser("Estado do PamMaster");
+        String state = inputUser("Estado do PamGym");
         if (state == null) return;
 
         gymController.registerPamGym(name, neighborhood, city, state);
@@ -47,6 +58,9 @@ public class RegisterView {
         printl("=> PamGym cadastrado com sucesso! <=");
     }
 
+    /**
+     * Função de criação de PamNimals. Pega as informações e manda pra função de registro dentro do controller.
+     */
     public static void pamNimalCreate() {
         if (PAMGYMS.isEmpty()) {
             print("=> Cadastre um PamGym primeiro!!!");
@@ -84,6 +98,9 @@ public class RegisterView {
         printl("=> PamNimal cadastrado com sucesso! <=");
     }
 
+    /**
+     * Função de criação de PamMasters. Pega as informações e manda pra função de registro dentro do controller.
+     */
     public static void pamMasterCreate() {
         printl("=> Cadastrando PamMaster...");
 

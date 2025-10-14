@@ -1,11 +1,14 @@
 package org.example.commons;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.security.AnyTypePermission;
-import org.example.database.Pamydex;
-import org.example.model.*;
-import org.jetbrains.annotations.NotNull;
+import static org.example.database.Pamydex.*;
+import org.example.database.PamydexTransferer;
 import org.jetbrains.annotations.Nullable;
+
+import org.example.model.*;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 
 import java.io.File;
 import java.io.FileReader;
@@ -14,13 +17,21 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.*;
 
-
+/**
+ * Classe de funções usadas em algumas partes do código
+ */
 public class Function {
+    /**
+     * Função que cria um novo id com base nos já existentes
+     * @param list lista de alguma instancia para ser analisada
+     * @return retorna um novo id
+     * @param <T> tipo da instacia
+     */
     public static <T extends Identifiable> UUID uniqueId(List<T> list){
         UUID uuid;
         List<UUID> listId = list.stream()
-                .map(item -> item.getId())
-                .collect(Collectors.toList());
+                .map(Identifiable::getId)
+                .toList();
 
         do {
             uuid = UUID.randomUUID();
@@ -29,18 +40,27 @@ public class Function {
         return uuid;
     }
 
+    /**
+     * Função para serializar as informações salvas nas listas dentro de um xml
+     */
     public static void saveInfo() {
-        XStream xstream = new XStream();
+        XStream xstream = new XStream(new PureJavaReflectionProvider());
         xstream.addPermission(AnyTypePermission.ANY);
 
-        Pamydex data = new Pamydex();
+        PamydexTransferer data = new PamydexTransferer();
+        data.setPamGyms(PAMGYMS);
+        data.setPamMasters(PAMMASTERS);
+        data.setPamNimals(PAMNIMALS);
 
-        xstream.alias("PamyDex", Pamydex.class);
-        xstream.alias("Pamgyms", List.class);
+
+        xstream.alias("PamyDex", PamydexTransferer.class);
+
+        xstream.aliasField("PamGyms", PamydexTransferer.class, "pamGyms");
+        xstream.aliasField("PamMasters", PamydexTransferer.class, "pamMasters");
+        xstream.aliasField("PamNimals", PamydexTransferer.class, "pamNimals");
+
         xstream.alias("PamGym", PamGym.class);
-        xstream.alias("PamMasters", List.class);
         xstream.alias("PamMaster", PamMaster.class);
-        xstream.alias("PamNimals", List.class);
         xstream.alias("PamNimal", PamNimal.class);
         xstream.alias("Address", Address.class);
 
@@ -52,19 +72,50 @@ public class Function {
         }
     }
 
+    /**
+     * Desserializa as informações quando o programa é aberto
+     */
     public static void catchInfo(){
-        XStream xstream = new XStream();
+        XStream xstream = new XStream(new PureJavaReflectionProvider());
         xstream.addPermission(AnyTypePermission.ANY);
 
-        Pamydex pamyDex;
+        xstream.alias("PamyDex", PamydexTransferer.class);
+
+        xstream.aliasField("PamGyms", PamydexTransferer.class, "pamGyms");
+        xstream.aliasField("PamMasters", PamydexTransferer.class, "pamMasters");
+        xstream.aliasField("PamNimals", PamydexTransferer.class, "pamNimals");
+
+        xstream.alias("PamGym", PamGym.class);
+        xstream.alias("PamMaster", PamMaster.class);
+        xstream.alias("PamNimal", PamNimal.class);
+        xstream.alias("Address", Address.class);
+
         File arqXml = new File("data/PamyDex.xml");
         try (FileReader reader = new FileReader(arqXml)){
-            pamyDex =  (Pamydex) xstream.fromXML(reader);
+            PamydexTransferer loadData = (PamydexTransferer) xstream.fromXML(reader);
+
+            PAMMASTERS.clear();
+            PAMGYMS.clear();
+            PAMNIMALS.clear();
+
+            if (loadData.getPamMasters() != null) {
+                PAMMASTERS.addAll(loadData.getPamMasters());
+            }
+            if (loadData.getPamGyms() != null) {
+                PAMGYMS.addAll(loadData.getPamGyms());
+            }
+            if (loadData.getPamNimals() != null) {
+                PAMNIMALS.addAll(loadData.getPamNimals());
+            }
         } catch (IOException e) {
             saveInfo();
         }
     }
 
+    /**
+     * Função para escolher o status do PamNimal
+     * @return
+     */
     public static @Nullable String chooseCurrentStatus(){
         Set<String> options = new HashSet<>();
         options.add("1");
@@ -87,15 +138,17 @@ public class Function {
                 case "3" -> {
                     return "Em Tratamento";
                 }
-                case "0" -> { continue; }
-                default -> {
-                    IOFunctions.printl("Digite uma opção válida!");
-                }
+                case "0" -> { }
+                default -> IOFunctions.printl("Digite uma opção válida!");
             }
         } while (!options.contains(option));
         return null;
     }
 
+    /**
+     * Função para validar e criar um novo telefone
+     * @return
+     */
     public static @Nullable String createPhone(){
         String phone;
 

@@ -32,7 +32,7 @@ public class PamMasterController {
 
     public void showPamMasters() {
         for (int i = 0; i < PAMMASTERS.size(); i++)
-            System.out.printf("[%d] %s",  i + 1, PAMMASTERS.get(i).getName());
+            printf("[%d] %s",  i + 1, PAMMASTERS.get(i).getName());
     }
 
     public UUID showPamMasters(int pm) {
@@ -63,8 +63,18 @@ public class PamMasterController {
     public boolean removePamMaster(int choosePamMaster, UUID newPamMaster) {
         try {
             PamMaster pamMaster = PAMMASTERS.get(choosePamMaster);
-            for (PamNimal p : pamMaster.getPamNimals())
-                p.setPamMaster(newPamMaster);
+            PamMaster newPamMasterObj = PAMMASTERS.stream()
+                    .filter(p -> p.getId().equals(newPamMaster))
+                    .findFirst()
+                    .orElse(null);
+
+            for (PamNimal p : pamMaster.getPamNimals()) {
+                if (p != null && newPamMasterObj != null) {
+                    p.setPamMaster(newPamMaster);
+                    newPamMasterObj.addPamNimal(p);
+                }
+            }
+
             PAMMASTERS.remove(choosePamMaster);
             saveInfo();
             return false;
@@ -91,7 +101,7 @@ public class PamMasterController {
                 Bairro -> %s
                 Cidade -> %s
                 Estado -> %s
-                """, address.neighborhood(), address.city(), address.state());
+                """, address.getNeighborhood(), address.getCity(), address.getState());
                 printl("Nomes dos PamNimals:");
                 for (PamNimal pamNimal : p.getPamNimals())
                     printl(pamNimal.getName());
@@ -100,6 +110,126 @@ public class PamMasterController {
                 printl("-".repeat(20));
                 printl(" ");
             }
+        }
+    }
+
+    public boolean updatePamMaster(int choosePamMaster) {
+        try {
+            while (true) {
+                PamMaster pamMaster = PAMMASTERS.get(choosePamMaster);
+                String choose;
+
+                printl("""
+                        [1] Nome
+                        [2] Bairro
+                        [3] Cidade
+                        [4] Estado
+                        [5] Telefone
+                        [6] email
+                        [7] Sair
+                        """);
+
+                choose = ask("=> Qual atributo deseja editar? ");
+
+                switch (choose) {
+                    case "1" -> {
+                        printf("Nome atual do(a) PamMaster: %s\n", pamMaster.getName());
+                        String newName = inputUser("Digite o novo nome");
+                        String option = ask("=> Deseja realmente fazer a troca? ");
+                        if (option.equalsIgnoreCase("s")) {
+                            if (newName != null) {
+                                pamMaster.setName(newName);
+                                saveInfo();
+                                printl("Nome atualizado com sucesso!");
+                            }
+                        } else {
+                            printl("Troca não realizada! Retornando...");
+                        }
+                    }
+
+                    case "2" -> {
+                        printf("Bairro atual do(a) PamMaster: %s", pamMaster.getAddress().getNeighborhood());
+                        String newNeighbourHood = inputUser("Digite o novo Bairro");
+                        String option = ask("=> Deseja realmente fazer a troca? ");
+                        if (option.equalsIgnoreCase("s")) {
+                            if (newNeighbourHood != null) {
+                                pamMaster.getAddress().setNeighborhood(newNeighbourHood);
+                                saveInfo();
+                                printl("Bairro atualizado com sucesso!");
+                            }
+                        } else {
+                            printl("Troca não realizada! Retornando...");
+                        }
+                    }
+
+                    case "3" -> {
+                        printf("Cidade atual do(a) PamMaster: %s", pamMaster.getAddress().getCity());
+                        String newCity = inputUser("Digite a nova cidade");
+                        String option = ask("=> Deseja realmente fazer a troca? ");
+                        if (option.equalsIgnoreCase("s")) {
+                            if (newCity != null) {
+                                pamMaster.getAddress().setCity(newCity);
+                                saveInfo();
+                                printl("Cidade atualizada com sucesso!");
+                            }
+                        } else {
+                            printl("Troca não realizada! Retornando...");
+                        }
+                    }
+
+                    case "4" -> {
+                        printf("Estado atual do(a) PamMaster: %s", pamMaster.getAddress().getState());
+                        String newState = inputUser("Digite o novo Estado");
+                        String option = ask("=> Deseja realmente fazer a troca? ");
+                        if (option.equalsIgnoreCase("s")) {
+                            if (newState != null) {
+                                pamMaster.getAddress() .setState(newState);
+                                saveInfo();
+                                printl("Estado atualizado com sucesso!");
+                            }
+                        } else {
+                            printl("Troca não realizada! Retornando...");
+                        }
+                    }
+
+                    case "5" -> {
+                        printf("Estado atual do(a) PamMaster: %s", pamMaster.getFormatedPhone());
+                        String newPhone = createPhone();
+                        String option = ask("=> Deseja realmente fazer a troca? ");
+                        if (option.equalsIgnoreCase("s")) {
+                            if (newPhone != null) {
+                                pamMaster.setPhone(newPhone);
+                                saveInfo();
+                                printl("Telefone atualizado com sucesso!");
+                            }
+                        } else {
+                            printl("Troca não realizada! Retornando...");
+                        }
+                    }
+
+                    case "6" -> {
+                        printf("Email atual do(a) PamMaster: %s", pamMaster.getEmail());
+                        String newEmail = inputUser("Digite o novo email");
+                        String option = ask("=> Deseja realmente fazer a troca? ");
+                        if (option.equalsIgnoreCase("s")) {
+                            if (newEmail != null) {
+                                pamMaster.setEmail(newEmail);
+                                saveInfo();
+                                printl("Email atualizado com sucesso!");
+                            }
+                        } else {
+                            printl("Troca não realizada! Retornando...");
+                        }
+                    }
+
+                    case "7" -> { return false; }
+
+                    default -> printl("Digite uma opção válida!");
+                }
+            }
+        } catch (IndexOutOfBoundsException e) {
+            printl("Digite um número dentro da opções!");
+            return true;
         }
     }
 }
