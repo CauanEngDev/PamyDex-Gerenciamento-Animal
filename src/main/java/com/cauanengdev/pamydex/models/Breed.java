@@ -1,4 +1,7 @@
 package com.cauanengdev.pamydex.models;
 
-public class Breed extends Identificator{
+import jakarta.persistence.Entity;
+
+@Entity
+public class Breed extends Identificator {
 }

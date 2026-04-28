@@ -1,21 +1,20 @@
 package com.cauanengdev.pamydex.models;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import jakarta.persistence.Entity;
+import lombok.AccessLevel;
+import lombok.Getter;
 
-public class Specie extends Identificator{
-    private Map<UUID, Breed> breeds = new HashMap<>();
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+public class Specie extends Identificator {
+    @Getter(AccessLevel.PUBLIC)
+    private final Set<Breed> breeds = new HashSet<>();
 
     public void addBreed(Breed newBreed) {
-        breeds.put(newBreed.getId(), newBreed);
+        breeds.add(newBreed);
     }
 
-    public void removeBreed(UUID breedId) {
-        breeds.remove(breedId);
-    }
-
-    public Map<UUID, Breed> getBreeds() {
-        return breeds;
-    }
+    public void removeBreed(Breed breed) { breeds.remove(breed); }
 }
