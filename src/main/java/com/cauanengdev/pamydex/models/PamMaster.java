@@ -1,0 +1,52 @@
+package com.cauanengdev.pamydex.models;
+
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
+@Entity
+@NoArgsConstructor
+@Getter(AccessLevel.PUBLIC)
+@Setter(AccessLevel.PUBLIC)
+public class PamMaster extends Identificator {
+    private String phone;
+    private String email;
+    @Embedded
+    private Address address;
+    @ManyToOne @JoinColumn(name = "pamgym_id")
+    private PamGym pamGym;
+    @OneToMany(mappedBy = "pamMaster") @Setter(AccessLevel.NONE)
+    private Set<PamNimal> pamNimals = new HashSet<>();
+
+    public PamMaster(UUID id, String name, String phone, String email, Address address, PamGym pamGym) {
+        super(id, name);
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.pamGym = pamGym;
+    }
+
+    public void addAnimal(PamNimal newPamNimal) {
+        this.pamNimals.add(newPamNimal);
+    }
+
+    public void removeAnimal(PamNimal pamNimal) {
+        pamNimals.remove(pamNimal);
+    }
+
+    public void switchAllAnimal(PamMaster newPamMaster) {
+        new HashSet<>(pamNimals).forEach(a -> switchAnimal(a, newPamMaster));
+    }
+
+    public void switchAnimal(PamNimal pamNimal, PamMaster newPamMaster) {
+        newPamMaster.getPamNimals().add(pamNimal);
+        this.removeAnimal(pamNimal);
+        pamNimal.setPamMaster(newPamMaster);
+    }
+}

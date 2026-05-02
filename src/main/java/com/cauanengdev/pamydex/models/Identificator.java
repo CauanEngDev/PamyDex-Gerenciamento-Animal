@@ -4,10 +4,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -15,6 +12,7 @@ import java.util.UUID;
 @EqualsAndHashCode(of = "id")
 @Setter(AccessLevel.PUBLIC)
 @Getter(AccessLevel.PUBLIC)
+@NoArgsConstructor @AllArgsConstructor
 public abstract class Identificator {
     @Id @GeneratedValue(strategy = GenerationType.UUID) @Setter(AccessLevel.NONE)
     protected UUID id;
