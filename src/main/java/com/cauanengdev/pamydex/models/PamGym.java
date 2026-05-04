@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
@@ -19,8 +18,8 @@ public class PamGym extends Identificator {
     @OneToMany(mappedBy = "pamGym") @Getter(AccessLevel.PUBLIC)
     private Set<PamMaster> pamMasters = new HashSet<>();
 
-    public PamGym(UUID id, String name, Address address) {
-        super(id, name);
+    public PamGym(String name, Address address) {
+        super(name);
         this.address = address;
     }
 

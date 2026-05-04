@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
@@ -24,8 +23,8 @@ public class PamMaster extends Identificator {
     @OneToMany(mappedBy = "pamMaster") @Setter(AccessLevel.NONE)
     private Set<PamNimal> pamNimals = new HashSet<>();
 
-    public PamMaster(UUID id, String name, String phone, String email, Address address, PamGym pamGym) {
-        super(id, name);
+    public PamMaster(String name, String phone, String email, Address address, PamGym pamGym) {
+        super(name);
         this.phone = phone;
         this.email = email;
         this.address = address;

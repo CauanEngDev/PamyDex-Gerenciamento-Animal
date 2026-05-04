@@ -1,7 +1,5 @@
 package com.cauanengdev.pamydex.models;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.*;
@@ -14,7 +12,7 @@ import java.util.UUID;
 @Getter(AccessLevel.PUBLIC)
 @NoArgsConstructor @AllArgsConstructor
 public abstract class Identificator {
-    @Id @GeneratedValue(strategy = GenerationType.UUID) @Setter(AccessLevel.NONE)
-    protected UUID id;
+    @Id @Setter(AccessLevel.NONE)
+    protected final UUID id = UUID.randomUUID();
     protected String name;
 }

@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
@@ -28,9 +27,9 @@ public class PamNimal extends Identificator {
     @ManyToOne @JoinColumn(name = "breed_id")
     private Breed breed;
 
-    public PamNimal(UUID id, String name, LocalDate age, Status currentStatus, Sex sex, PamMaster pamMaster,
+    public PamNimal(String name, LocalDate age, Status currentStatus, Sex sex, PamMaster pamMaster,
                     Specie specie, Breed breed) {
-        super(id, name);
+        super(name);
         this.age = age;
         this.currentStatus = currentStatus;
         this.sex = sex;
