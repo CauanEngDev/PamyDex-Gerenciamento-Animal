@@ -31,13 +31,13 @@ public class PamMasterService {
     public void delete(UUID id) { repository.deleteById(id); }
 
     public void switchAnimal(UUID pamNimalId, UUID newMasterid) {
-        PamNimal pamNimal = animalService.findById(pamNimalId);
+        PamNimal pamNimal = animalService.findEntity(pamNimalId);
         PamMaster current = findById(pamNimal.getPamMaster().getId());
         PamMaster newMaster = findById(newMasterid);
         current.switchAnimal(pamNimal, newMaster);
         save(current);
         save(newMaster);
-        animalService.save(pamNimal);
+        animalService.saveEntity(pamNimal);
     }
 
     public void switchAllAnimal(UUID pamMasterId, UUID newMasterId) {

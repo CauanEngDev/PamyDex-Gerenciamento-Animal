@@ -6,12 +6,12 @@ import java.util.Set;
 import java.util.UUID;
 
 public class PamGymDTO {
-    public record Request(
-            String name,
-            String phone,
-            String email,
-            Address address,
-            UUID pamGymId,
-            Set<UUID> pamNimals
-    )
+    public record Request(String name, Address address) {}
+
+    public record Response(
+        UUID id,
+        String name,
+        Address address,
+        Set<UUID> pamMasterIds
+    ) {}
 }
