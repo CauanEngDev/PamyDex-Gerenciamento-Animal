@@ -1,7 +1,6 @@
 package com.cauanengdev.pamydex.mappers;
 
 import com.cauanengdev.pamydex.dtos.PamMasterDTO;
-import com.cauanengdev.pamydex.dtos.PamNimalDTO;
 import com.cauanengdev.pamydex.models.PamGym;
 import com.cauanengdev.pamydex.models.PamMaster;
 import com.cauanengdev.pamydex.models.PamNimal;
@@ -21,7 +20,7 @@ public class PamMasterMapper {
         );
     }
 
-    public PamMasterDTO.Response toReponse(PamMaster master) {
+    public PamMasterDTO.Response toResponse(PamMaster master) {
         return new PamMasterDTO.Response(
                 master.getId(),
                 master.getName(),

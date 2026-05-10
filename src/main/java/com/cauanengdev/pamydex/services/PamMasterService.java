@@ -1,8 +1,12 @@
 package com.cauanengdev.pamydex.services;
 
+import com.cauanengdev.pamydex.dtos.PamMasterDTO;
 import com.cauanengdev.pamydex.exceptions.NotFoundException;
+import com.cauanengdev.pamydex.mappers.PamMasterMapper;
+import com.cauanengdev.pamydex.models.PamGym;
 import com.cauanengdev.pamydex.models.PamMaster;
 import com.cauanengdev.pamydex.models.PamNimal;
+import com.cauanengdev.pamydex.repositories.PamGymRepository;
 import com.cauanengdev.pamydex.repositories.PamMasterRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,39 +16,61 @@ import java.util.UUID;
 @Service
 public class PamMasterService {
     private final PamMasterRepository repository;
+    private final PamMasterMapper mapper;
+    private final PamGymRepository gymRepository;
     private final PamNimalService animalService;
 
-    public PamMasterService(PamMasterRepository repository, PamNimalService animalService) {
+    public PamMasterService(PamMasterRepository repository, PamMasterMapper mapper, PamGymRepository gymRepository, PamNimalService animalService) {
         this.repository = repository;
+        this.mapper = mapper;
+        this.gymRepository = gymRepository;
         this.animalService = animalService;
     }
 
-    public PamMaster save(PamMaster master) { return repository.save(master); }
+    public PamMasterDTO.Response save(PamMasterDTO.Request dto) {
+        PamGym gym = gymRepository.findById(dto.pamGymId())
+                .orElseThrow(() -> new NotFoundException("PamGym não encontrado!"));
+        PamMaster master = mapper.toEntity(dto, gym);
 
-    public List<PamMaster> findAll() { return repository.findAll(); }
+        return mapper.toResponse(repository.save(master));
+    }
 
-    public PamMaster findById(UUID id) {
+    PamMaster saveEntity(PamMaster master) { return repository.save(master); }
+
+    PamMaster findEntity(UUID id) {
         return repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("PamMaster não encontrad(o/a)!"));
+    }
+
+    public List<PamMasterDTO.Response> findAll() {
+        return repository.findAll()
+                .stream()
+                .map(mapper::toResponse)
+                .toList();
+    }
+
+    public PamMasterDTO.Response findById(UUID id) {
+        return mapper.toResponse(repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("PamMaster não encontrad(o/a)!")));
     }
 
     public void delete(UUID id) { repository.deleteById(id); }
 
     public void switchAnimal(UUID pamNimalId, UUID newMasterid) {
         PamNimal pamNimal = animalService.findEntity(pamNimalId);
-        PamMaster current = findById(pamNimal.getPamMaster().getId());
-        PamMaster newMaster = findById(newMasterid);
+        PamMaster current = findEntity(pamNimal.getPamMaster().getId());
+        PamMaster newMaster = findEntity(newMasterid);
         current.switchAnimal(pamNimal, newMaster);
-        save(current);
-        save(newMaster);
+        saveEntity(current);
+        saveEntity(newMaster);
         animalService.saveEntity(pamNimal);
     }
 
     public void switchAllAnimal(UUID pamMasterId, UUID newMasterId) {
-        PamMaster current = findById(pamMasterId);
-        PamMaster newMaster = findById(newMasterId);
+        PamMaster current = findEntity(pamMasterId);
+        PamMaster newMaster = findEntity(newMasterId);
         current.switchAllAnimal(newMaster);
-        save(current);
-        save(newMaster);
+        saveEntity(current);
+        saveEntity(newMaster);
     }
 }

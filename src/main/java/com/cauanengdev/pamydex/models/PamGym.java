@@ -12,10 +12,11 @@ import java.util.Set;
 
 @Entity
 @NoArgsConstructor
+@Getter(AccessLevel.PUBLIC)
 public class PamGym extends Identificator {
     @Embedded
     private Address address;
-    @OneToMany(mappedBy = "pamGym") @Getter(AccessLevel.PUBLIC)
+    @OneToMany(mappedBy = "pamGym")
     private Set<PamMaster> pamMasters = new HashSet<>();
 
     public PamGym(String name, Address address) {

@@ -8,6 +8,7 @@ import com.cauanengdev.pamydex.models.Breed;
 import com.cauanengdev.pamydex.models.PamMaster;
 import com.cauanengdev.pamydex.models.PamNimal;
 import com.cauanengdev.pamydex.models.Specie;
+import com.cauanengdev.pamydex.repositories.PamMasterRepository;
 import com.cauanengdev.pamydex.repositories.PamNimalRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,23 +20,24 @@ public class PamNimalService {
     private final PamNimalRepository repository;
     private final SpecieService specieService;
     private final BreedService breedService;
-    private final PamMasterService masterService;
+    private final PamMasterRepository masterRepository;
     private final PamNimalMapper mapper;
 
     public PamNimalService(PamNimalRepository repository, SpecieService specieService,
-                           BreedService breedService, PamMasterService masterService, PamNimalMapper mapper) {
+                           BreedService breedService, PamMasterRepository masterRepository, PamNimalMapper mapper) {
         this.repository = repository;
         this.specieService = specieService;
         this.breedService = breedService;
-        this.masterService = masterService;
+        this.masterRepository = masterRepository;
         this.mapper = mapper;
     }
 
     public PamNimalDTO.Response save(PamNimalDTO.Request dto) {
-        PamMaster master = masterService.findById(dto.pamMasterId());
-        Specie specie= specieService.findById(dto.specieId());
+        PamMaster master = masterRepository.findById(dto.pamMasterId())
+                .orElseThrow(() -> new NotFoundException("PamMaster não encontrado!"));
+        Specie specie= specieService.findEntity(dto.specieId());
         Breed breed = dto.breedId() != null
-                ? breedService.findById(dto.breedId())
+                ? breedService.findEntity(dto.breedId())
                 : null;
 
         if (breed != null && !breed.getSpecie().equals(specie))
@@ -60,7 +62,7 @@ public class PamNimalService {
                 .orElseThrow(() -> new NotFoundException("PamNimal não encontrado")));
     }
 
-    PamNimal saveEntity(PamNimal animal) {return repository.save(animal); }
+    PamNimal saveEntity(PamNimal animal) { return repository.save(animal); }
 
     PamNimal findEntity(UUID id) {
         return repository.findById(id)
