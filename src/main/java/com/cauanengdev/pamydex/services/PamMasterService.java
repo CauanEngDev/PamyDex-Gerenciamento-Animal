@@ -28,8 +28,7 @@ public class PamMasterService {
     }
 
     public PamMasterDTO.Response save(PamMasterDTO.Request dto) {
-        PamGym gym = gymRepository.findById(dto.pamGymId())
-                .orElseThrow(() -> new NotFoundException("PamGym não encontrado!"));
+        PamGym gym = findGym(dto.pamGymId());
         PamMaster master = mapper.toEntity(dto, gym);
 
         return mapper.toResponse(repository.save(master));
@@ -56,9 +55,25 @@ public class PamMasterService {
 
     public void delete(UUID id) { repository.deleteById(id); }
 
-    public void switchAnimal(UUID pamNimalId, UUID newMasterid) {
+    public PamMasterDTO.Response update(UUID id, PamMasterDTO.Request dto) {
+        PamMaster master = findEntity(id);
+        master.setAddress(dto.address());
+        master.setPamGym(findGym(dto.pamGymId()));
+        master.setEmail(dto.email());
+        master.setPhone(dto.phone());
+        master.setName(dto.name());
+
+        return mapper.toResponse(master);
+    }
+
+    PamGym findGym(UUID id) {
+        return gymRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("PamGym não encontrado!"));
+    }
+
+    public void switchAnimal(UUID pamMasterId, UUID pamNimalId, UUID newMasterid) {
         PamNimal pamNimal = animalService.findEntity(pamNimalId);
-        PamMaster current = findEntity(pamNimal.getPamMaster().getId());
+        PamMaster current = findEntity(pamMasterId);
         PamMaster newMaster = findEntity(newMasterid);
         current.switchAnimal(pamNimal, newMaster);
         saveEntity(current);

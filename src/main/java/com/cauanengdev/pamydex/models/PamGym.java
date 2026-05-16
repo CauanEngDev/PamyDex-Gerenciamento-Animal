@@ -6,6 +6,7 @@ import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,7 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter(AccessLevel.PUBLIC)
 public class PamGym extends Identificator {
-    @Embedded
+    @Embedded @Setter(AccessLevel.PUBLIC)
     private Address address;
     @OneToMany(mappedBy = "pamGym")
     private Set<PamMaster> pamMasters = new HashSet<>();
@@ -35,7 +36,7 @@ public class PamGym extends Identificator {
     }
 
     public void switchTutor(PamGym newPamGym, PamMaster pamMaster) {
-        newPamGym.getPamMasters().add(pamMaster);
+        newPamGym.addTutor(pamMaster);
         this.removeTutor(pamMaster);
         pamMaster.setPamGym(newPamGym);
     }

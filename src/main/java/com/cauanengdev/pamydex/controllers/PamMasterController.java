@@ -25,4 +25,21 @@ public class PamMasterController {
 
     @DeleteMapping("/{id}") @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable UUID id) { service.delete(id); }
+
+    @PutMapping("/{id}")
+    public PamMasterDTO.Response update(@PathVariable UUID id, @RequestBody PamMasterDTO.Request dto) {
+        return service.update(id, dto);
+    }
+
+    @PatchMapping("/{pamMasterId}/switch-animal/{pamNimalId}/to/{newPamMasterId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void switchAnimal(@PathVariable UUID pamMasterId,
+                             @PathVariable UUID pamNimalId,
+                             @PathVariable UUID newPamMasterId) { service.switchAnimal(pamMasterId, pamNimalId, newPamMasterId); }
+
+    @PatchMapping("/{pamMasterId}/switch-all-animals/{newPamMasterId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void switchAllAnimal(@PathVariable UUID pamMasterId, @PathVariable UUID newPamMasterId) {
+        service.switchAllAnimal(pamMasterId, newPamMasterId);
+    }
 }

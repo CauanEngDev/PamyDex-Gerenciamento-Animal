@@ -45,5 +45,7 @@ public class SpecieService {
     public SpecieDTO.Response update(UUID id, SpecieDTO.Request dto) {
         Specie specie = findEntity(id);
         specie.setName(dto.name());
+
+        return mapper.toResponse(specie);
     }
 }

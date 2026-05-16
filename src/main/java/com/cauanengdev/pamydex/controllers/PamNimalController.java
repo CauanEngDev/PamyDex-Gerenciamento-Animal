@@ -27,4 +27,9 @@ public class PamNimalController {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable UUID id) { service.delete(id); }
+
+    @PutMapping("/{id}")
+    public PamNimalDTO.Response update(@PathVariable UUID id, @RequestBody PamNimalDTO.Request dto) {
+        return service.update(id, dto);
+    }
 }

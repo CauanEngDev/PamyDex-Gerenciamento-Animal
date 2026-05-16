@@ -26,4 +26,9 @@ public class BreedController {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable UUID id) { service.delete(id); }
+
+    @PutMapping("/{id}")
+    public BreedDTO.Response update(@PathVariable UUID id, @RequestBody BreedDTO.Request dto) {
+        return service.update(id, dto);
+    }
 }

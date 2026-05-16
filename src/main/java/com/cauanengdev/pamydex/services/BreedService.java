@@ -49,4 +49,12 @@ public class BreedService {
         return mapper.toResponse(repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Raça não encontrada!")));
     }
+
+    public BreedDTO.Response update(UUID id, BreedDTO.Request dto) {
+        Breed breed = findEntity(id);
+        breed.setName(dto.name());
+        breed.setSpecie(specieService.findEntity(dto.specieId()));
+
+        return mapper.toResponse(breed);
+    }
 }

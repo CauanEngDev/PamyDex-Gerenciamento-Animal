@@ -42,16 +42,24 @@ public class PamGymService {
                 .orElseThrow(() -> new NotFoundException("PamGym não encontrada!"));
     }
 
+    public PamGymDTO.Response update(UUID id, PamGymDTO.Request dto) {
+        PamGym gym = findEntity(id);
+        gym.setName(dto.name());
+        gym.setAddress(dto.address());
+
+        return mapper.toResponse(gym);
+    }
+
     PamGym saveEntity(PamGym gym) { return repository.save(gym); }
 
     public void delete(UUID id) {
         repository.deleteById(id);
     }
 
-    public void switchTutor(UUID newPamGymId, UUID pamMasterId) {
+    public void switchTutor(UUID pamGymId, UUID pamMasterId, UUID newPamGymId) {
         PamMaster pamMaster = masterService.findEntity(pamMasterId);
         PamGym newPamGym = findEntity(newPamGymId);
-        PamGym current = findEntity(pamMaster.getPamGym().getId());
+        PamGym current = findEntity(pamGymId);
         current.switchTutor(newPamGym, pamMaster);
         saveEntity(current);
         saveEntity(newPamGym);

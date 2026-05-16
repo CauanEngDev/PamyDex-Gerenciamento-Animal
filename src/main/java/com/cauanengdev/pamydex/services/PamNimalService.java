@@ -33,8 +33,7 @@ public class PamNimalService {
     }
 
     public PamNimalDTO.Response save(PamNimalDTO.Request dto) {
-        PamMaster master = masterRepository.findById(dto.pamMasterId())
-                .orElseThrow(() -> new NotFoundException("PamMaster não encontrado!"));
+        PamMaster master = findMaster(dto.pamMasterId());
         Specie specie= specieService.findEntity(dto.specieId());
         Breed breed = dto.breedId() != null
                 ? breedService.findEntity(dto.breedId())
@@ -61,6 +60,23 @@ public class PamNimalService {
         return mapper.toResponse(repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("PamNimal não encontrado")));
     }
+
+    public PamNimalDTO.Response update(UUID id, PamNimalDTO.Request dto) {
+        PamNimal animal = findEntity(id);
+        animal.setName(dto.name());
+        animal.setAge(dto.age());
+        animal.setSex(dto.sex());
+        animal.setCurrentStatus(dto.status());
+        animal.setPamMaster(findMaster(dto.pamMasterId()));
+        animal.setBreed(breedService.findEntity(dto.breedId()));
+        animal.setSpecie(specieService.findEntity(dto.specieId()));
+
+        return mapper.toResponse(animal);
+    }
+
+    PamMaster findMaster(UUID id) {
+        return  masterRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("PamMaster não encontrado!"));}
 
     PamNimal saveEntity(PamNimal animal) { return repository.save(animal); }
 

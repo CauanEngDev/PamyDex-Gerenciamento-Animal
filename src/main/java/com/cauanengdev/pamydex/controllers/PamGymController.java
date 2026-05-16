@@ -26,4 +26,23 @@ public class PamGymController {
 
     @DeleteMapping("/{id}") @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable UUID id) { service.delete(id); }
+
+    @PutMapping("/{id}")
+    public PamGymDTO.Response update(@PathVariable UUID id, @RequestBody PamGymDTO.Request dto) {
+        return service.update(id, dto);
+    }
+
+    @PatchMapping("/{pamGymId}/switch-tutor/{pamMasterId}/to/{newPamGymId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void switchTutor(@PathVariable UUID pamGymId,
+                            @PathVariable UUID pamMasterId,
+                            @PathVariable UUID newPamGymId) {
+        service.switchTutor(pamGymId, pamMasterId, newPamGymId);
+    }
+
+    @PatchMapping("/{pamGymId}/switch-all-tutors/{newPamGymId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void switchAllTutors(@PathVariable UUID pamGymId, @PathVariable UUID newPamGymId) {
+        service.switchAllTutor(pamGymId, newPamGymId);
+    }
 }

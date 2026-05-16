@@ -44,7 +44,7 @@ public class PamMaster extends Identificator {
     }
 
     public void switchAnimal(PamNimal pamNimal, PamMaster newPamMaster) {
-        newPamMaster.getPamNimals().add(pamNimal);
+        newPamMaster.addAnimal(pamNimal);
         this.removeAnimal(pamNimal);
         pamNimal.setPamMaster(newPamMaster);
     }
