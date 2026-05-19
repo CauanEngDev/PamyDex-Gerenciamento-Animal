@@ -2,6 +2,7 @@ package com.cauanengdev.pamydex.controllers;
 
 import com.cauanengdev.pamydex.dtos.PamMasterDTO;
 import com.cauanengdev.pamydex.services.PamMasterService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ public class PamMasterController {
     public PamMasterController(PamMasterService service) { this.service = service; }
 
     @PostMapping @ResponseStatus(HttpStatus.CREATED)
-    public PamMasterDTO.Response create(@RequestBody PamMasterDTO.Request dto) { return service.save(dto); }
+    public PamMasterDTO.Response create(@Valid @RequestBody PamMasterDTO.Request dto) { return service.save(dto); }
 
     @GetMapping
     public List<PamMasterDTO.Response> findAll() { return service.findAll(); }
@@ -27,7 +28,7 @@ public class PamMasterController {
     public void delete(@PathVariable UUID id) { service.delete(id); }
 
     @PutMapping("/{id}")
-    public PamMasterDTO.Response update(@PathVariable UUID id, @RequestBody PamMasterDTO.Request dto) {
+    public PamMasterDTO.Response update(@PathVariable UUID id, @Valid @RequestBody PamMasterDTO.Request dto) {
         return service.update(id, dto);
     }
 

@@ -2,6 +2,7 @@ package com.cauanengdev.pamydex.controllers;
 
 import com.cauanengdev.pamydex.dtos.PamNimalDTO;
 import com.cauanengdev.pamydex.services.PamNimalService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public class PamNimalController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public PamNimalDTO.Response create(@RequestBody PamNimalDTO.Request dto) { return service.save(dto); }
+    public PamNimalDTO.Response create(@Valid @RequestBody PamNimalDTO.Request dto) { return service.save(dto); }
 
     @GetMapping
     public List<PamNimalDTO.Response> findAll() { return service.findAll(); }

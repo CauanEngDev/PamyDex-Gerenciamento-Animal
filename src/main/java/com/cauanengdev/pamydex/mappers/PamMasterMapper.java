@@ -13,6 +13,8 @@ public class PamMasterMapper {
     public PamMaster toEntity(PamMasterDTO.Request dto, PamGym pamGym) {
         return new PamMaster(
                 dto.name(),
+                dto.age(),
+                dto.sex(),
                 dto.phone(),
                 dto.email(),
                 dto.address(),
@@ -24,6 +26,8 @@ public class PamMasterMapper {
         return new PamMasterDTO.Response(
                 master.getId(),
                 master.getName(),
+                master.getAge(),
+                master.getSex(),
                 master.getPhone(),
                 master.getEmail(),
                 master.getAddress(),

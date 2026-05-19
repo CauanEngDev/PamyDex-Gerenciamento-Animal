@@ -1,7 +1,6 @@
 package com.cauanengdev.pamydex.mappers;
 
 import com.cauanengdev.pamydex.dtos.PamNimalDTO;
-import com.cauanengdev.pamydex.enums.Status;
 import com.cauanengdev.pamydex.models.Breed;
 import com.cauanengdev.pamydex.models.PamMaster;
 import com.cauanengdev.pamydex.models.PamNimal;
@@ -16,7 +15,7 @@ public class PamNimalMapper {
                 dto.name(),
                 dto.age(),
                 dto.status(),
-                dto.sex(),
+                dto.animalSex(),
                 master,
                 specie,
                 breed
@@ -29,7 +28,7 @@ public class PamNimalMapper {
                 animal.getName(),
                 animal.getAge(),
                 animal.getCurrentStatus(),
-                animal.getSex(),
+                animal.getAnimalSex(),
                 animal.getPamMaster().getName(),
                 animal.getSpecie().getName(),
                 animal.getBreed() != null ? animal.getBreed().getName() : null

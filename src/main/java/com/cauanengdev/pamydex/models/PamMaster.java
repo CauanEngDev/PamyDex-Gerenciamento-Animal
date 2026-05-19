@@ -1,11 +1,13 @@
 package com.cauanengdev.pamydex.models;
 
+import com.cauanengdev.pamydex.enums.HumanSex;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,6 +16,8 @@ import java.util.Set;
 @Getter(AccessLevel.PUBLIC)
 @Setter(AccessLevel.PUBLIC)
 public class PamMaster extends Identificator {
+    private LocalDate age;
+    private HumanSex sex;
     private String phone;
     private String email;
     @Embedded
@@ -23,8 +27,10 @@ public class PamMaster extends Identificator {
     @OneToMany(mappedBy = "pamMaster") @Setter(AccessLevel.NONE)
     private Set<PamNimal> pamNimals = new HashSet<>();
 
-    public PamMaster(String name, String phone, String email, Address address, PamGym pamGym) {
+    public PamMaster(String name, LocalDate age, HumanSex sex, String phone, String email, Address address, PamGym pamGym) {
         super(name);
+        this.age = age;
+        this.sex = sex;
         this.phone = phone;
         this.email = email;
         this.address = address;

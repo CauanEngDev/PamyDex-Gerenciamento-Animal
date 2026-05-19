@@ -1,6 +1,6 @@
 package com.cauanengdev.pamydex.models;
 
-import com.cauanengdev.pamydex.enums.Sex;
+import com.cauanengdev.pamydex.enums.AnimalSex;
 import com.cauanengdev.pamydex.enums.Status;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -19,7 +19,7 @@ import java.time.LocalDate;
 public class PamNimal extends Identificator {
     private LocalDate age;
     private Status currentStatus;
-    private Sex sex;
+    private AnimalSex animalSex;
     @ManyToOne @JoinColumn(name = "pam_master_id", nullable = false)
     private PamMaster pamMaster;
     @ManyToOne @JoinColumn(name = "specie_id", nullable = false)
@@ -27,12 +27,12 @@ public class PamNimal extends Identificator {
     @ManyToOne @JoinColumn(name = "breed_id")
     private Breed breed;
 
-    public PamNimal(String name, LocalDate age, Status currentStatus, Sex sex, PamMaster pamMaster,
+    public PamNimal(String name, LocalDate age, Status currentStatus, AnimalSex animalSex, PamMaster pamMaster,
                     Specie specie, Breed breed) {
         super(name);
         this.age = age;
         this.currentStatus = currentStatus;
-        this.sex = sex;
+        this.animalSex = animalSex;
         this.pamMaster = pamMaster;
         this.specie = specie;
         this.breed = breed;

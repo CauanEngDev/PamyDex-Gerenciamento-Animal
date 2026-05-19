@@ -2,6 +2,7 @@ package com.cauanengdev.pamydex.controllers;
 
 import com.cauanengdev.pamydex.dtos.PamGymDTO;
 import com.cauanengdev.pamydex.services.PamGymService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class PamGymController {
     public PamGymController(PamGymService service) { this.service = service; }
 
     @PostMapping @ResponseStatus(HttpStatus.CREATED)
-    public PamGymDTO.Response create(@RequestBody PamGymDTO.Request dto) { return service.save(dto); }
+    public PamGymDTO.Response create(@Valid @RequestBody PamGymDTO.Request dto) { return service.save(dto); }
 
     @GetMapping
     public List<PamGymDTO.Response> findAll() { return service.findAll(); }
@@ -28,7 +29,7 @@ public class PamGymController {
     public void delete(@PathVariable UUID id) { service.delete(id); }
 
     @PutMapping("/{id}")
-    public PamGymDTO.Response update(@PathVariable UUID id, @RequestBody PamGymDTO.Request dto) {
+    public PamGymDTO.Response update(@PathVariable UUID id, @Valid @RequestBody PamGymDTO.Request dto) {
         return service.update(id, dto);
     }
 

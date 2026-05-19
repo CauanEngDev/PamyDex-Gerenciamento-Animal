@@ -65,7 +65,7 @@ public class PamNimalService {
         PamNimal animal = findEntity(id);
         animal.setName(dto.name());
         animal.setAge(dto.age());
-        animal.setSex(dto.sex());
+        animal.setAnimalSex(dto.animalSex());
         animal.setCurrentStatus(dto.status());
         animal.setPamMaster(findMaster(dto.pamMasterId()));
         animal.setBreed(breedService.findEntity(dto.breedId()));
